@@ -37,7 +37,7 @@ public class GrayscaleService {
 
     public byte[] resizeGrayscaleImage(File grayscaleImage, String size) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("http://localhost:8083/resize");
+        HttpPost post = new HttpPost("http://resize:8083/resize");
         FileBody fileBody = new FileBody(grayscaleImage, ContentType.DEFAULT_BINARY);
         StringBody sizeStringBody = new StringBody(size, ContentType.MULTIPART_FORM_DATA);
 

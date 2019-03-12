@@ -38,7 +38,7 @@ public class RawToJpgService {
 
     public byte[] grayscaleImage(File jpg) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("http://localhost:8081/grayscale");
+        HttpPost post = new HttpPost("http://grayscale:8081/grayscale");
         FileBody fileBody = new FileBody(jpg, ContentType.DEFAULT_BINARY);
 
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();

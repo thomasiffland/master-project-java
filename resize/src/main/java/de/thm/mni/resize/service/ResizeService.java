@@ -37,7 +37,7 @@ public class ResizeService {
 
     public String generateSizeStringFromPercent(File jpg, String percent) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("http://localhost:8082/exifdata/filtered");
+        HttpPost post = new HttpPost("http://exifdata:8082/exifdata/filtered");
         FileBody fileBody = new FileBody(jpg, ContentType.DEFAULT_BINARY);
         StringBody filter = new StringBody("Image Height", ContentType.DEFAULT_BINARY);
 
