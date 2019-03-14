@@ -36,8 +36,8 @@ public class ExifdataController {
 
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public DeferredResult<ResponseEntity<List<String>>> getAllExifdata(@RequestParam("file") MultipartFile file) throws IOException, InterruptedException {
-        DeferredResult<ResponseEntity<List<String>>> output = new DeferredResult<>();
+    public DeferredResult<ResponseEntity<String>> getAllExifdata(@RequestParam("file") MultipartFile file) throws IOException, InterruptedException {
+        DeferredResult<ResponseEntity<String>> output = new DeferredResult<>();
         ExecutorService executorService = Executors.newFixedThreadPool(8);
         executorService.submit(() -> {
             System.out.println(Thread.currentThread().getId());
@@ -47,7 +47,7 @@ public class ExifdataController {
                 List<String> exifdata = exifdataService.readExifdataFromImage(image);
                 final HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_JPEG);
-                output.setResult(new ResponseEntity<>(exifdata, HttpStatus.OK));
+                output.setResult(new ResponseEntity<>(String.join("\n",exifdata), HttpStatus.OK));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -57,8 +57,8 @@ public class ExifdataController {
 
 
     @RequestMapping(value = "/filtered",method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public DeferredResult<ResponseEntity<List<String>>> getExifdataFiltered(@RequestParam("file") MultipartFile file,@RequestParam("filter") String filter) throws IOException, InterruptedException {
-        DeferredResult<ResponseEntity<List<String>>> output = new DeferredResult<>();
+    public DeferredResult<ResponseEntity<String>> getExifdataFiltered(@RequestParam("file") MultipartFile file,@RequestParam("filter") String filter) throws IOException, InterruptedException {
+        DeferredResult<ResponseEntity<String>> output = new DeferredResult<>();
         ExecutorService executorService = Executors.newFixedThreadPool(8);
         executorService.submit(() -> {
             System.out.println(Thread.currentThread().getId());
@@ -66,7 +66,7 @@ public class ExifdataController {
             try {
                 image =  writeImageAndReturnFileHandle(file);
                 List<String> exifdata = exifdataService.readExifdataFromImageFiltered(image,filter);
-                output.setResult(new ResponseEntity<>(exifdata, HttpStatus.OK));
+                output.setResult(new ResponseEntity<>(String.join("\n",exifdata), HttpStatus.OK));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -31,20 +31,12 @@ public class TimelapseController {
     TimelapseService timelapseService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  DeferredResult<ResponseEntity<byte[]>> createTimelapse(@RequestParam("file") MultipartFile file, @RequestParam(name = "framerate") int framerate) throws IOException, InterruptedException {
+    public DeferredResult<ResponseEntity<byte[]>> createTimelapse(@RequestParam("file") MultipartFile file, @RequestParam(name = "framerate") int framerate) throws IOException, InterruptedException {
         DeferredResult<ResponseEntity<byte[]>> output = new DeferredResult<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(8);
-        executorService.submit(() -> {
-            File timelapse = null;
-            try {
-                timelapse = timelapseService.createTimelapse(file,framerate);
-                final HttpHeaders headers = new HttpHeaders();
-                headers.add("Content-Type","video/mp4");
-                output.setResult(new ResponseEntity<>(IOUtils.toByteArray(timelapse.toURI()),headers,HttpStatus.OK));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        File timelapse = timelapseService.createTimelapse(file, framerate);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "video/mp4");
+        output.setResult(new ResponseEntity<>(IOUtils.toByteArray(timelapse.toURI()), headers, HttpStatus.OK));
         return output;
     }
 

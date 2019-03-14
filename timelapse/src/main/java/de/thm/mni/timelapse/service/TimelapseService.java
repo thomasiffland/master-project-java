@@ -53,12 +53,15 @@ public class TimelapseService {
         File folderToExtractTo = new File(FilenameUtils.removeExtension(zip.getAbsolutePath()));
         folderToExtractTo.mkdirs();
         ProcessBuilder builder = new ProcessBuilder();
+        System.out.println("start unzip");
         String command = "unzip " + zip.getAbsolutePath() + " -d " + folderToExtractTo.getAbsolutePath();
         builder.command("/bin/bash", "-c", command);
+        System.out.println("unzip");
         Process process = builder.start();
         builder.start();
-        process.waitFor();
+        System.out.println("waiting");
         int exitCode = process.waitFor();
+        System.out.println(exitCode);
         if (exitCode == 0) {
             return folderToExtractTo;
         } else {

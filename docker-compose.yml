@@ -1,31 +1,31 @@
 version: "3"
 services:
   rawtojpg:
-    image: tiff16/master-project:rawtojpg_python
+    image: tiff16/master-project:rawtojpg_java
     deploy:
       replicas: 3
     ports:
       - "8080:8080"
   grayscale:
-    image: tiff16/master-project:grayscale_python
+    image: tiff16/master-project:grayscale_java
     deploy:
       replicas: 3
     ports:
       - "8081:8081"
   exifdata:
-    image: tiff16/master-project:exifdata_python
+    image: tiff16/master-project:exifdata_java
     deploy:
       replicas: 3
     ports:
       - "8082:8082"
   resize:
-    image: tiff16/master-project:resize_python
+    image: tiff16/master-project:resize_java
     deploy:
       replicas: 3
     ports:
       - "8083:8083"
   timelapse:
-    image: tiff16/master-project:timelapse_python
+    image: tiff16/master-project:timelapse_java
     deploy:
       replicas: 3
     ports:
